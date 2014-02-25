@@ -7,6 +7,8 @@ Reference
 ============
 http://flixel.org/
 
+http://www.box2dflash.org/
+
 Tutorials
 ============
 http://flashgamedojo.com/wiki/index.php?title=Category:Tutorials
