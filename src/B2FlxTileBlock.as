@@ -6,32 +6,46 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
-	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Collision.Shapes.b2PolygonShape;
+	import Box2D.Dynamics.b2Body;
+	import Box2D.Dynamics.b2BodyDef;
+	import Box2D.Dynamics.b2FixtureDef;
 	import Box2D.Dynamics.b2World;
 	
-	import assets.EmbedAssets;
-	
-	import org.flixel.FlxState;
-	import org.flixel.FlxText;
+	import org.flixel.FlxTileblock;
 	
 	
 	/**
-	 * PlayState.as class. 
+	 * B2FlxTileBlock.as class. 
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 11.2+
 	 * @airVersion 3.2+
-	 * Created Feb 25, 2014 7:55:10 PM
+	 * Created Feb 26, 2014 10:36:25 AM
 	 * @history 12/30/13,
 	 */ 
-	public class PlayState extends FlxState
+	public class B2FlxTileBlock extends FlxTileblock
 	{ 
 		//--------------------------------------------------------------------------
 		//
 		// Variables
 		//
 		//--------------------------------------------------------------------------
-		public var _world:b2World;
+		//Since Box2D is using meters instead of pixels, we need to define a ratio of meters to pixels. That's what the ratio var is for.
+		private var ratio:Number = 30;
+		public var _fixDef:b2FixtureDef;
+		public var _bodyDef:b2BodyDef;
+		public var _obj:b2Body;
+		//Reference
+		private var _world:b2World;
+		//Physics params default values.
+		public var _friction:Number = 0.8;
+		public var _restitution:Number = 0.3;
+		public var _density:Number = 0.7;
+		//Default angle
+		public var _angle:Number = 0;
+		//Default body type
+		public var _type:uint = b2Body.b2_staticBody;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -55,25 +69,35 @@ package
 		// Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function PlayState()
+		public function B2FlxTileBlock(X:int, Y:int, Width:uint, Height:uint,world:b2World)
 		{
-			super();
+			super(X, Y, Width, Height);
+			//
+			this._world = world;
 		} 
 		//--------------------------------------------------------------------------
 		//
 		// Public methods
 		//
 		//--------------------------------------------------------------------------
-		override public function create():void
+		public function createBody():void
 		{
-			this.add(new FlxText(0,0,100,"Hello,World!"));//adds a 100px wide text field at position 0,0 (top left)
-			//Set up the Box2d world
-			setupBox2dWorld();
-			//Add Box2d floor
-			var floor:B2FlxTileBlock = new B2FlxTileBlock(0,40,101,171,this._world);
-			floor.createBody();
-			floor.loadGraphic(EmbedAssets.FLOOR_BLOCK_GRASS);
-			this.add(floor);
+			var boxShape:b2PolygonShape = new b2PolygonShape();
+			boxShape.SetAsBox(this.width/2/this.ratio,this.height/2/this.ratio);
+			//
+			this._fixDef = new b2FixtureDef();
+			this._fixDef.density = this._density;
+			this._fixDef.restitution = this._restitution;
+			this._fixDef.friction = this._friction;
+			this._fixDef.shape = boxShape;
+			//
+			this._bodyDef = new b2BodyDef();
+			this._bodyDef.position.Set((x+this.width/2)/this.ratio,(y+this.height/2)/this.ratio);
+			this._bodyDef.angle = this._angle * (Math.PI/180);
+			this._bodyDef.type = this._type;
+			//
+			this._obj = this._world.CreateBody(this._bodyDef);
+			this._obj.CreateFixture(this._fixDef);
 		}
 		//--------------------------------------------------------------------------
 		//
@@ -86,11 +110,6 @@ package
 		// Private methods
 		//
 		//--------------------------------------------------------------------------
-		private function setupBox2dWorld():void
-		{
-			var gravity:b2Vec2 = new b2Vec2(0,9.8);
-			this._world = new b2World(gravity,true);
-		}
 	}
 	
 }
