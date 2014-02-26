@@ -23,10 +23,15 @@ package assets
 		// Variables
 		//
 		//--------------------------------------------------------------------------
+		//Floor
 		[Embed(source="/images/Grass Block.png")]
 		public static var FLOOR_BLOCK_GRASS:Class;
+		//Chacter
 		[Embed(source="/images/Character Boy.png")]
 		public static var CHARACTER_BOY:Class;
+		//Tools
+		[Embed(source="/images/Rock.png")]
+		public static var TOOLS_ROCK:Class;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------

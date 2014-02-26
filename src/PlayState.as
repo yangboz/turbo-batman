@@ -74,16 +74,22 @@ package
 			//Set up the Box2d world
 			setupBox2dWorld();
 			//Add Box2d floor
-			var floor:B2FlxTileBlock = new B2FlxTileBlock(0,140,101,171,this._world);
+			var floor:B2FlxTileBlock = new B2FlxTileBlock(0,310,101,131,this._world);
 			floor.createBody();
 			floor.loadGraphic(EmbedAssets.FLOOR_BLOCK_GRASS);
 			this.add(floor);
-			//Add FlxSprite
-			var cube:B2FlxSprite = new B2FlxSprite(20,20,101, 171, _world);
+			//Add FlxSprite-Character
+			var cube:B2FlxSprite = new B2FlxSprite(20,0,67, 87, _world);
 			cube.angle = 30;
 			cube.createBody();
 			cube.loadGraphic(EmbedAssets.CHARACTER_BOY, false, false);
 			this.add(cube);
+			//Another FlxSprite-Tools
+			var circle:B2FlxSprite = new B2FlxSprite(100, 10, 97, 98, _world);
+			circle.angle = 30;
+			circle.createBody();
+			circle.loadGraphic(EmbedAssets.TOOLS_ROCK, false, false);
+			this.add(circle);
 		}
 		/**
 		 * Tell Box2D to update the world when Flixel runs its update.
