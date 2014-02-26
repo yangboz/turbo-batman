@@ -6,6 +6,9 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
+	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.b2World;
+	
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	
@@ -26,7 +29,7 @@ package
 		// Variables
 		//
 		//--------------------------------------------------------------------------
-		
+		public var _world:b2World;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -62,6 +65,8 @@ package
 		override public function create():void
 		{
 			this.add(new FlxText(0,0,100,"Hello,World!"));//adds a 100px wide text field at position 0,0 (top left)
+			//Set up the Box2d world
+			setupBox2dWorld();
 		}
 		//--------------------------------------------------------------------------
 		//
@@ -74,6 +79,11 @@ package
 		// Private methods
 		//
 		//--------------------------------------------------------------------------
+		private function setupBox2dWorld():void
+		{
+			var gravity:b2Vec2 = new b2Vec2(0,9.8);
+			this._world = new b2World(gravity,true);
+		}
 	}
 	
 }
