@@ -33,6 +33,10 @@ package
 		//
 		//--------------------------------------------------------------------------
 		public var _world:b2World;
+		//variables
+		private var floor:B2FlxTileBlock;
+		private var charactor:B2FlxSprite;
+		private var tool_ball:B2FlxSprite;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -74,22 +78,23 @@ package
 			//Set up the Box2d world
 			setupBox2dWorld();
 			//Add Box2d floor
-			var floor:B2FlxTileBlock = new B2FlxTileBlock(0,310,101,131,this._world);
-			floor.createBody();
-			floor.loadGraphic(EmbedAssets.FLOOR_BLOCK_GRASS);
+			this.floor = new B2FlxTileBlock(0,300,202,131,this._world);
+			this.floor.createBody();
+			this.floor.loadGraphic(EmbedAssets.FLOOR_BLOCK_GRASS);
 			this.add(floor);
 			//Add FlxSprite-Character
-			var cube:B2FlxSprite = new B2FlxSprite(20,0,67, 87, _world);
-			cube.angle = 30;
-			cube.createBody();
-			cube.loadGraphic(EmbedAssets.CHARACTER_BOY, false, false);
-			this.add(cube);
+			this.charactor = new B2FlxSprite(20,0,67, 87, _world);
+			this.charactor.angle = 30;
+			this.charactor.createBody();
+			this.charactor.loadGraphic(EmbedAssets.CHARACTER_BOY, false, false);
+			this.add(charactor);
 			//Another FlxSprite-Tools
-			var circle:B2FlxSprite = new B2FlxSprite(100, 10, 97, 98, _world);
-			circle.angle = 30;
-			circle.createBody();
-			circle.loadGraphic(EmbedAssets.TOOLS_ROCK, false, false);
-			this.add(circle);
+			this.tool_ball = new B2FlxSprite(100, 10, 97, 98, _world);
+			this.tool_ball.angle = 30;
+			this.tool_ball.createBody();
+			this.tool_ball.loadGraphic(EmbedAssets.TOOLS_ROCK, false, false);
+			this.add(tool_ball);
+			//
 		}
 		/**
 		 * Tell Box2D to update the world when Flixel runs its update.
@@ -98,6 +103,9 @@ package
 		{
 			this._world.Step(FlxG.elapsed,10,10);
 			super.update();
+			//Update the ball
+			this.tool_ball.x += Main.gamepad.x * 50;
+			this.tool_ball.y += Main.gamepad.y * 50;
 		}
 		//--------------------------------------------------------------------------
 		//

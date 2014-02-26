@@ -31,7 +31,8 @@ package
 		// Variables
 		//
 		//--------------------------------------------------------------------------
-		
+		public static var gamepad:Gamepad;
+		private static var gamepadView:GamepadView;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -57,9 +58,9 @@ package
 		//--------------------------------------------------------------------------
 		public function Main()
 		{
-			super(640,480,PlayState,1); //Create a new FlxGame object at 320x240 with 2x pixels, then load PlayState
+			super(640,380,PlayState,1); //Create a new FlxGame object at 320x240 with 2x pixels, then load PlayState
 			//
-//			this.addEventListener(Event.ADDED_TO_STAGE,addToStageHandler);
+			this.addEventListener(Event.ADDED_TO_STAGE,addToStageHandler);
 			
 		} 
 		//--------------------------------------------------------------------------
@@ -81,11 +82,14 @@ package
 		private function addToStageHandler(event:Event):void
 		{
 			//GamePad
-			var gamepad:Gamepad = new Gamepad(this.stage,false);
+			Main.gamepad = new Gamepad(this.stage,true,0.5,true);
+			Main.gamepad.useWASD(true);
 			//GamePadView
-			var gamepadView:GamepadView = new GamepadView();
-			gamepadView.init(gamepad,0xffffff);
-			this.addChild(gamepadView);
+			Main.gamepadView = new GamepadView();
+			Main.gamepadView.init(gamepad,0xffffff);
+			this.addChild(Main.gamepadView);
+			Main.gamepadView.x = this.stage.stageWidth-Main.gamepadView.width/2;
+			Main.gamepadView.y = this.stage.stageHeight-Main.gamepadView.height/2;
 		}
 	}
 	
