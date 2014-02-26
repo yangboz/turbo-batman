@@ -106,6 +106,8 @@ package
 			//Update the ball
 			this.tool_ball.x += Main.gamepad.x * 50;
 			this.tool_ball.y += Main.gamepad.y * 50;
+			//Camera follow
+			FlxG.camera.follow(this.tool_ball);
 		}
 		//--------------------------------------------------------------------------
 		//
