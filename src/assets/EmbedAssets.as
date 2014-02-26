@@ -25,6 +25,8 @@ package assets
 		//--------------------------------------------------------------------------
 		[Embed(source="/images/Grass Block.png")]
 		public static var FLOOR_BLOCK_GRASS:Class;
+		[Embed(source="/images/Character Boy.png")]
+		public static var CHARACTER_BOY:Class;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------

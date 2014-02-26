@@ -6,32 +6,48 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
-	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Collision.Shapes.b2PolygonShape;
+	import Box2D.Dynamics.b2Body;
+	import Box2D.Dynamics.b2BodyDef;
+	import Box2D.Dynamics.b2FixtureDef;
 	import Box2D.Dynamics.b2World;
 	
-	import assets.EmbedAssets;
-	
-	import org.flixel.FlxState;
-	import org.flixel.FlxText;
+	import org.flixel.FlxSprite;
 	
 	
 	/**
-	 * PlayState.as class. 
+	 * B2FlxSprite.as class. 
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 11.2+
 	 * @airVersion 3.2+
-	 * Created Feb 25, 2014 7:55:10 PM
+	 * Created Feb 26, 2014 1:11:35 PM
 	 * @history 12/30/13,
 	 */ 
-	public class PlayState extends FlxState
+	public class B2FlxSprite extends FlxSprite
 	{ 
 		//--------------------------------------------------------------------------
 		//
 		// Variables
 		//
 		//--------------------------------------------------------------------------
-		public var _world:b2World;
+		private var ratio:Number = 30;
+		
+		public var _fixDef:b2FixtureDef;
+		public var _bodyDef:b2BodyDef
+		public var _obj:b2Body;
+		
+		private var _world:b2World;
+		
+		//Physics params default value
+		public var _friction:Number = 0.8;
+		public var _restitution:Number = 0.3;
+		public var _density:Number = 0.7;
+		
+		//Default angle
+		public var _angle:Number = 0;
+		//Default body type
+		public var _type:uint = b2Body.b2_dynamicBody;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -55,31 +71,45 @@ package
 		// Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function PlayState()
+		public function B2FlxSprite(X:Number, Y:Number, Width:Number, Height:Number, w:b2World)
 		{
-			super();
+			super(X,Y);
+			
+			width = Width;
+			height = Height;
+			_world = w;
 		} 
 		//--------------------------------------------------------------------------
 		//
 		// Public methods
 		//
 		//--------------------------------------------------------------------------
-		override public function create():void
+		override public function update():void
 		{
-			this.add(new FlxText(0,0,100,"Hello,World!"));//adds a 100px wide text field at position 0,0 (top left)
-			//Set up the Box2d world
-			setupBox2dWorld();
-			//Add Box2d floor
-			var floor:B2FlxTileBlock = new B2FlxTileBlock(0,140,101,171,this._world);
-			floor.createBody();
-			floor.loadGraphic(EmbedAssets.FLOOR_BLOCK_GRASS);
-			this.add(floor);
-			//Add FlxSprite
-			var cube:B2FlxSprite = new B2FlxSprite(20,20,101, 171, _world);
-			cube.angle = 30;
-			cube.createBody();
-			cube.loadGraphic(EmbedAssets.CHARACTER_BOY, false, false);
-			this.add(cube);
+			x = (_obj.GetPosition().x * ratio) - width/2 ;
+			y = (_obj.GetPosition().y * ratio) - height/2;
+			angle = _obj.GetAngle() * (180 / Math.PI);
+			super.update();
+		}
+		//
+		public function createBody():void
+		{            
+			var boxShape:b2PolygonShape = new b2PolygonShape();
+			boxShape.SetAsBox((width/2) / ratio, (height/2) /ratio);
+			
+			_fixDef = new b2FixtureDef();
+			_fixDef.density = _density;
+			_fixDef.restitution = _restitution;
+			_fixDef.friction = _friction;                        
+			_fixDef.shape = boxShape;
+			
+			_bodyDef = new b2BodyDef();
+			_bodyDef.position.Set((x + (width/2)) / ratio, (y + (height/2)) / ratio);
+			_bodyDef.angle = _angle * (Math.PI / 180);
+			_bodyDef.type = _type;
+			
+			_obj = _world.CreateBody(_bodyDef);
+			_obj.CreateFixture(_fixDef);
 		}
 		//--------------------------------------------------------------------------
 		//
@@ -92,11 +122,6 @@ package
 		// Private methods
 		//
 		//--------------------------------------------------------------------------
-		private function setupBox2dWorld():void
-		{
-			var gravity:b2Vec2 = new b2Vec2(0,9.8);
-			this._world = new b2World(gravity,true);
-		}
 	}
 	
 }
