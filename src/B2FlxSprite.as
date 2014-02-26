@@ -16,7 +16,7 @@ package
 	
 	
 	/**
-	 * B2FlxSprite.as class. 
+	 * B2FlxSprite.as class. Adding a FlxSprite is almost the same thing as adding a FlxTileblock.
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 11.2+

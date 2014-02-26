@@ -11,12 +11,13 @@ package
 	
 	import assets.EmbedAssets;
 	
+	import org.flixel.FlxG;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	
 	
 	/**
-	 * PlayState.as class. 
+	 * PlayState.as class. The first thing Box2D needs to work is a world (the b2World class). Let's start by creating a world global variable:
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 11.2+
@@ -64,6 +65,9 @@ package
 		// Public methods
 		//
 		//--------------------------------------------------------------------------
+		/**
+		 * Customize creating Box2D body and worlds.
+		 */		
 		override public function create():void
 		{
 			this.add(new FlxText(0,0,100,"Hello,World!"));//adds a 100px wide text field at position 0,0 (top left)
@@ -80,6 +84,14 @@ package
 			cube.createBody();
 			cube.loadGraphic(EmbedAssets.CHARACTER_BOY, false, false);
 			this.add(cube);
+		}
+		/**
+		 * Tell Box2D to update the world when Flixel runs its update.
+		 */		
+		override public function update():void
+		{
+			this._world.Step(FlxG.elapsed,10,10);
+			super.update();
 		}
 		//--------------------------------------------------------------------------
 		//

@@ -16,7 +16,7 @@ package
 	
 	
 	/**
-	 * B2FlxTileBlock.as class. 
+	 * B2FlxTileBlock.as class. To create a floor, we will simply create a FlxTileblock with a Box2d body attached to it.
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 11.2+
