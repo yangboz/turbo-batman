@@ -12,6 +12,7 @@ package
 	import assets.EmbedAssets;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxGroup;
 	import org.flixel.FlxRect;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
@@ -51,6 +52,11 @@ package
 		public var freeze:Boolean = false;
 		// Create a variable 'text' of class FlxText.
 		private var text:FlxText;
+		// FlxGroup 
+		private var GUI:FlxGroup = new FlxGroup();
+		private var foreground:FlxGroup = new FlxGroup();
+		private var background:FlxGroup = new FlxGroup();
+		private var Inv:FlxGroup = new FlxGroup();
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -92,7 +98,9 @@ package
 			this.map_world = new FlxTilemap();
 			var map_txt:String = new EmbedAssets.MAP_TXT(); 
 			this.map_world.loadMap(map_txt,EmbedAssets.MAP_WORLD,16,16);
-			this.add(this.map_world);
+//			this.add(this.map_world);
+			//
+			this.background.add(this.map_world);
 			//Text
 //			this.add(new FlxText(0,0,100,"Hello,World!"));//adds a 100px wide text field at position 0,0 (top left)
 			//Set up the Box2d world
@@ -115,30 +123,39 @@ package
 			dialogBG.alpha = 0.75;
 			dialogBG.scrollFactor.x = 0;
 			dialogBG.scrollFactor.y = 0;
-			dialogBG.visible = false;
-			add(dialogBG);
-			
-			
+//			dialogBG.visible = false;
+//			add(dialogBG);
+			//
+			GUI.add(dialogBG);
 			// Instantiate 'text' with an x and y of 10, width of 100,
 			// and the classic text of 'Hello World'.
 			text = new FlxText(5, 5, FlxG.width - 10, "Hello World!");
 			text.scrollFactor.x = 0;
 			text.scrollFactor.y = 0;
-			text.visible = false;
+//			text.visible = false;
 			
 			// Add the created variable to the gameloop,
 			// so the Flixel engine will update it.
-			this.add(text);
+//			this.add(text);
+			GUI.add(text);
 			// Creating the character.
 			this.charactor = new FlxCharacter(5,5,EmbedAssets.CHARACTER,this.map_world);
-			this.add(this.charactor);
+//			this.add(this.charactor);
+			foreground.add(this.charactor);
 			// NPC character
 			this.charactor_NPC = new FlxCharacter(10, 5, EmbedAssets.CHARACTER_NPC, this.map_world);
 			this.charactor_NPC.dialog = ["Richard: Hey how are you today!",
 				"You: I'm ok, thank you.",
 				"Richard: Do you want some candy?",
 				"You: No."];
-			this.add(this.charactor_NPC);
+//			this.add(this.charactor_NPC);
+			foreground.add(this.charactor_NPC);
+			//Adding the FlxGroups
+			GUI.visible = false;
+			this.add(background);
+			this.add(foreground);
+			this.add(GUI);
+			this.add(Inv);
 			//
 			characterList.push(this.charactor);
 			characterList.push(this.charactor_NPC);
@@ -186,7 +203,7 @@ package
 					this.charactor.move("RIGHT");
 				}
 					// Else if space is pressed
-				else if (Main.gamepad.fire2.isDown)//FlxG.keys.justPressed("SPACE")
+				else if (Main.gamepad.fire2.isReleased)//FlxG.keys.justPressed("SPACE")
 				{
 					// If player is not moving and there is an npc in front
 					if (!this.charactor.checkNPC(this.charactor.move_dir)) 
@@ -219,14 +236,15 @@ package
 						freeze = true;
 						
 						// Show text & dialog
-						text.visible = true;
-						dialogBG.visible = true;
+//						text.visible = true;
+//						dialogBG.visible = true;
+						GUI.visible = true;
 					}
 				}
 			}
 			else
 			{
-				if (Main.gamepad.fire2.isDown)//FlxG.keys.justPressed("SPACE")
+				if (Main.gamepad.fire2.isReleased)//FlxG.keys.justPressed("SPACE")
 				{
 					// increase dialog index
 					dialogIndex++;
@@ -237,8 +255,9 @@ package
 						freeze = false;
 						
 						// hide text & dialog
-						text.visible = false;
-						dialogBG.visible = false;
+//						text.visible = false;
+//						dialogBG.visible = false;
+						GUI.visible = false;
 					}
 						// Else display next line
 					else
