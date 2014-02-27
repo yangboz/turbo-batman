@@ -40,6 +40,8 @@ package
 		public static var doors:Array = new Array(33, 6, 13, 24);
 		// Variable holding text for talking.
 		public var dialog:Array = new Array();
+		//
+		public var dialogLine:int = 0;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------

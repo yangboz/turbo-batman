@@ -160,13 +160,33 @@ package
 			this.charactor_NPC = new FlxCharacter(10, 5, EmbedAssets.CHARACTER_NPC, this.map_world);
 			this.charactor_NPC.dialog = ["Richard: Hey how are you today!",
 				"You: I'm ok, thank you.",
-				"Richard: Do you want some candy?",
-				"You: No."];
+				"Richard: I need to write a letter but I don't have anything to write with. Do you have a pencil?",
+				"::changeCharLine@19",
+				"::checkItem@Pencil,6",
+				"You: Nope.",
+				"::endDialog",
+				"You: Yes, here you go.",
+				"::remInv@Pencil",
+				"*You give the Pencil to Richard*",
+				"Richard: Thanks a lot! Can you take this letter to Mimi, she lives in the house down the road?",
+				"::addInv@Letter",
+				"*Richard gives you a Letter*",
+				"You: I'll see what I can do.",
+				"::changeCharLine@15",
+				"::endDialog",
+				"Richard: What did Mimi say?",
+				"You: I haven't delivered the letter yet.",
+				"::endDialog",
+				"Richard: Did you find a pencil yet?",
+				"::checkItem@Pencil,6",
+				"You: Nope."];
 //			this.add(this.charactor_NPC);
 			foreground.add(this.charactor_NPC);
 			// Item that can be picked up in the world
 			this.character_pencil = new FlxCharacter(18,5,EmbedAssets.INVENTORY_PENCIL,this.map_world);
-			this.character_pencil.dialog = ["::addInv@Pencil","*You have found a pencil.*"];
+			this.character_pencil.dialog = ["::addInv@Pencil",
+				"::tele@-1,-1",
+				"*You have found a pencil.*"];
 			foreground.add(this.character_pencil);
 			//Adding the FlxGroups
 			GUI.visible = false;
@@ -391,6 +411,35 @@ package
 			updateInv();
 		}
 		//
+		private function checkItem(input:String):void
+		{
+			for (var i:int = 0; i < inventory.length; i++ )
+			{
+				if (inventory[i].name == input.split(",")[0])
+				{
+					dialogIndex = int(input.split(",")[1]);
+				}
+			}
+		}
+		//
+		private function changeLine(line:String):void
+		{
+			dialogIndex = int(line);
+		}
+		//
+		private function changeCharLine(line:String):void
+		{
+			this.charactor_NPC.dialogLine = int(line);
+		}
+		//
+		private function endDialog():void
+		{
+			// Unfreeze
+			freeze = false;
+			
+			// hide GUI
+			GUI.visible = false;
+		}
 		// Teleports a Character
 		private function tele(input:String):void
 		{
