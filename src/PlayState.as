@@ -57,10 +57,12 @@ package
 		private var foreground:FlxGroup = new FlxGroup();
 		private var background:FlxGroup = new FlxGroup();
 		private var Inv:FlxGroup = new FlxGroup();
-		//
+		// Inventory
 		private var inventory:Array = new Array();
 		private var inventory_items:Array = new Array();
 		private var inventory_BG:FlxSprite;
+		// Picking up item
+		private var character_pencil:FlxCharacter;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -162,6 +164,10 @@ package
 				"You: No."];
 //			this.add(this.charactor_NPC);
 			foreground.add(this.charactor_NPC);
+			// Item that can be picked up in the world
+			this.character_pencil = new FlxCharacter(18,5,EmbedAssets.INVENTORY_PENCIL,this.map_world);
+			this.character_pencil.dialog = ["::addInv@Pencil","*You have found a pencil.*"];
+			foreground.add(this.character_pencil);
 			//Adding the FlxGroups
 			GUI.visible = false;
 			this.add(background);
@@ -171,6 +177,7 @@ package
 			//Character list
 			characterList.push(this.charactor);
 			characterList.push(this.charactor_NPC);
+			characterList.push(this.character_pencil);
 			//Another FlxSprite-Tools
 			this.tool_ball_b2 = new B2FlxSprite(100, 10, 97, 98, _world);
 			this.tool_ball_b2.angle = 30;
@@ -182,8 +189,9 @@ package
 			inventory_items.push(new FlxInventoryItem("Pencil",EmbedAssets.INVENTORY_PENCIL));
 			//Inventory testing here.
 			Inv.visible = true;
-			this.addInv("Letter");
 			this.addInv("Pencil");
+			this.addInv("Letter");
+			this.remInv("Pencil");
 		}
 		/**
 		 * Tell Box2D to update the world when Flixel runs its update.
@@ -191,6 +199,7 @@ package
 		override public function update():void
 		{
 			this._world.Step(FlxG.elapsed,10,10);
+			//
 			super.update();
 			//Update the charactor
 //			this.charactor.x += Main.gamepad.x * 50;
@@ -222,7 +231,7 @@ package
 					this.charactor.move("RIGHT");
 				}
 					// Else if space is pressed
-				else if (Main.gamepad.fire2.isDown)//FlxG.keys.justPressed("SPACE")
+				else if (Main.gamepad.fire2.isPressed)//FlxG.keys.justPressed("SPACE")
 				{
 					// If player is not moving and there is an npc in front
 					if (!this.charactor.checkNPC(this.charactor.move_dir)) 
@@ -250,7 +259,12 @@ package
 						// Change text to dialogtext.
 						dialogIndex = 0;
 						text.text = this.charactor_NPC.dialog[dialogIndex];
-						
+						// Check for events and go to next line.
+						while ( checkLine(this.charactor_NPC.dialog[dialogIndex]))
+						{
+							runEvent(this.charactor_NPC.dialog[dialogIndex]);
+							dialogIndex++;
+						}
 						// Freeze world
 						freeze = true;
 						
@@ -263,7 +277,7 @@ package
 			}
 			else
 			{
-				if (Main.gamepad.fire2.isDown)//FlxG.keys.justPressed("SPACE")
+				if (Main.gamepad.fire2.isPressed)//FlxG.keys.justPressed("SPACE")
 				{
 					// increase dialog index
 					dialogIndex++;
@@ -280,7 +294,15 @@ package
 					}
 						// Else display next line
 					else
+					{
+						// Check for events and go to next line.
+						while ( checkLine(this.charactor_NPC.dialog[dialogIndex]))
+						{
+							runEvent(this.charactor_NPC.dialog[dialogIndex]);
+							dialogIndex++;
+						}
 						text.text = this.charactor_NPC.dialog[dialogIndex];
+					}
 				}
 			}
 			if (Main.gamepad.fire1.isPressed)
@@ -367,6 +389,34 @@ package
 			
 			// Update display of inventory.
 			updateInv();
+		}
+		//
+		// Teleports a Character
+		private function tele(input:String):void
+		{
+			charactor_NPC.x = input.split(",")[0] * 16;
+			charactor_NPC.y = input.split(",")[1] * 16;
+		}
+		// returns true if there is an event
+		private function checkLine(line:String):Boolean
+		{
+			if (line.substring(0,2) == "::")
+				return true;
+			
+			return false;
+		}
+		//
+		private function runEvent(line:String):void
+		{
+			if (line.substring(0,2) == "::")
+			{
+				// Check if the function has arguments.
+				if (line.split("@")[1] != null)
+					// Execute function written in string with arguments.
+					this[line.split("@")[0].substring(2)](line.split("@")[1]);
+				else
+					this[line.split("@")[0].substring(2)]();
+			}
 		}
 	}
 	
