@@ -33,10 +33,12 @@ package
 		//
 		//--------------------------------------------------------------------------
 		public var _world:b2World;
-		//variables
-		private var floor:B2FlxTileBlock;
-		private var charactor:B2FlxSprite;
-		private var tool_ball:B2FlxSprite;
+		//variables,Box2D based
+		private var floor_b2:B2FlxTileBlock;
+		private var charactor_b2:B2FlxSprite;
+		private var tool_ball_b2:B2FlxSprite;
+		//Flx based.
+		private var charactor:FlxCharacter;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -78,22 +80,24 @@ package
 			//Set up the Box2d world
 			setupBox2dWorld();
 			//Add Box2d floor
-			this.floor = new B2FlxTileBlock(0,300,202,131,this._world);
-			this.floor.createBody();
-			this.floor.loadGraphic(EmbedAssets.FLOOR_BLOCK_GRASS);
-			this.add(floor);
+			this.floor_b2 = new B2FlxTileBlock(0,300,202,131,this._world);
+			this.floor_b2.createBody();
+			this.floor_b2.loadGraphic(EmbedAssets.FLOOR_BLOCK_GRASS);
+			this.add(floor_b2);
 			//Add FlxSprite-Character
-			this.charactor = new B2FlxSprite(20,0,67, 87, _world);
-			this.charactor.angle = 30;
-			this.charactor.createBody();
-			this.charactor.loadGraphic(EmbedAssets.CHARACTER_BOY, false, false);
-			this.add(charactor);
+//			this.charactor_b2 = new B2FlxSprite(20,0,67, 87, _world);
+//			this.charactor_b2.angle = 30;
+//			this.charactor_b2.createBody();
+//			this.charactor_b2.loadGraphic(EmbedAssets.CHARACTER_BOY, false, false);
+//			this.add(charactor_b2);
+			this.charactor = new FlxCharacter(5,5,EmbedAssets.CHARACTER);
+			this.add(this.charactor);
 			//Another FlxSprite-Tools
-			this.tool_ball = new B2FlxSprite(100, 10, 97, 98, _world);
-			this.tool_ball.angle = 30;
-			this.tool_ball.createBody();
-			this.tool_ball.loadGraphic(EmbedAssets.TOOLS_ROCK, false, false);
-			this.add(tool_ball);
+			this.tool_ball_b2 = new B2FlxSprite(100, 10, 97, 98, _world);
+			this.tool_ball_b2.angle = 30;
+			this.tool_ball_b2.createBody();
+			this.tool_ball_b2.loadGraphic(EmbedAssets.TOOLS_ROCK, false, false);
+			this.add(tool_ball_b2);
 			//
 		}
 		/**
@@ -103,11 +107,31 @@ package
 		{
 			this._world.Step(FlxG.elapsed,10,10);
 			super.update();
-			//Update the ball
-			this.tool_ball.x += Main.gamepad.x * 50;
-			this.tool_ball.y += Main.gamepad.y * 50;
+			//Update the charactor
+//			this.charactor.x += Main.gamepad.x * 50;
+//			this.charactor.y += Main.gamepad.y * 50;
+			// If down arrow key is pressed.
+			if (Main.gamepad.down.isDown)
+			{
+				this.charactor.move("DOWN");
+			}
+			// Else if up arrow key is pressed.
+			else if (Main.gamepad.up.isDown)
+			{
+				this.charactor.move("UP");
+			}
+			// Else if left arrow key is pressed.
+			else if (Main.gamepad.left.isDown)
+			{
+				this.charactor.move("LEFT");
+			}
+			// Else if right arrow key is pressed.
+			else if (Main.gamepad.right.isDown)
+			{
+				this.charactor.move("RIGHT");
+			}
 			//Camera follow
-			FlxG.camera.follow(this.tool_ball);
+			FlxG.camera.follow(this.charactor);
 		}
 		//--------------------------------------------------------------------------
 		//
