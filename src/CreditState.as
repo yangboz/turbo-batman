@@ -1,60 +1,33 @@
 
-package assets
+package
 {
 	//--------------------------------------------------------------------------
 	//
 	// Imports
 	//
 	//--------------------------------------------------------------------------
+	import org.flixel.FlxG;
+	import org.flixel.FlxState;
+	import org.flixel.FlxText;
+	
 	
 	/**
-	 * EmbedAssets.as class. 
+	 * CreditState.as class. 
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 11.2+
 	 * @airVersion 3.2+
-	 * Created Feb 26, 2014 11:59:25 AM
+	 * Created Feb 27, 2014 4:27:31 PM
 	 * @history 12/30/13,
 	 */ 
-	public class EmbedAssets
+	public class CreditState extends FlxState
 	{ 
 		//--------------------------------------------------------------------------
 		//
 		// Variables
 		//
 		//--------------------------------------------------------------------------
-		//Floor
-		[Embed(source="/images/Grass_Block.png")]
-		public static var FLOOR_BLOCK_GRASS:Class;
-		//Chacter
-		[Embed(source="/images/Character.png")]
-		public static var CHARACTER:Class;
-		//
-		[Embed(source="/images/Character_NPC.png")]
-		public static var CHARACTER_NPC:Class;
-		//
-		[Embed(source="/images/Character_Boy.png")]
-		public static var CHARACTER_BOY:Class;
-		//
-		[Embed(source="/images/Character_Mimi.png")]
-		public static var CHARACTER_GIRL:Class;
-		//Tools
-		[Embed(source="/images/Rock.png")]
-		public static var TOOLS_ROCK:Class;
-		//Map-FlxTileMap
-		// Loading the map.
-		[Embed(source = "/data/Map_world.txt", mimeType = "application/octet-stream")] 
-		public static var MAP_TXT:Class;
-		// Loading the map spritesheet.
-		[Embed(source = "/images/World.png")] 
-		public static var MAP_WORLD:Class;
-		//Inventory
-		[Embed(source = "/images/Letter.png")] 
-		public static var INVENTORY_LETTER:Class;
-		//
-		[Embed(source = "/images/Pencil.png")] 
-		public static var INVENTORY_PENCIL:Class;
-		//
+		private var text:FlxText;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -78,13 +51,34 @@ package assets
 		// Constructor
 		//
 		//--------------------------------------------------------------------------
-		
+		public function CreditState()
+		{
+			super();
+			//
+			text = new FlxText(24, 24, FlxG.width,
+				"Adventure Game \n \n" +
+				"Programming by: me \n" +
+				"Graphics by: kcnh (www.kcnhgames.com) \n" +
+				"Based on a tutorial by: kcnh (www.kcnhgames.com) \n" +
+				"\n \n Press SPACE to continue.");
+			
+			add(text);
+		} 
 		//--------------------------------------------------------------------------
 		//
 		// Public methods
 		//
 		//--------------------------------------------------------------------------
-		
+		override public function update():void
+		{
+			
+			if (Main.gamepad.fire2.isPressed)//FlxG.keys.justPressed("SPACE"))
+			{
+				FlxG.switchState(new MenuState());
+//				FlxG.state = new MenuState();
+			}
+			super.update();
+		}
 		//--------------------------------------------------------------------------
 		//
 		// Protected methods

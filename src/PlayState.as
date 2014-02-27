@@ -63,6 +63,8 @@ package
 		private var inventory_BG:FlxSprite;
 		// Picking up item
 		private var character_pencil:FlxCharacter;
+		// For winner
+		private var character_girl:FlxCharacter;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -188,6 +190,19 @@ package
 				"::tele@-1,-1",
 				"*You have found a pencil.*"];
 			foreground.add(this.character_pencil);
+			// Character_girl
+			this.character_girl = new FlxCharacter(13,22,EmbedAssets.CHARACTER_GIRL,this.map_world);
+			this.character_girl.dialog =  ["::checkItem@Letter,2", 
+				"Mimi: Welcome to my house!",
+				"::endDialog",
+				"You: I have a letter for you from Richard.",
+				"::remInv@Letter",
+				"*You give the letter to Mimi*",
+				"Mimi: Oh, how exciting, thanks a lot!",
+				"You: Well, it seems my adventure ends here, I've done a great job today...",
+				"::endGame",
+				""];
+			foreground.add(this.character_girl);
 			//Adding the FlxGroups
 			GUI.visible = false;
 			this.add(background);
@@ -198,6 +213,7 @@ package
 			characterList.push(this.charactor);
 			characterList.push(this.charactor_NPC);
 			characterList.push(this.character_pencil);
+			characterList.push(this.character_girl);
 			//Another FlxSprite-Tools
 			this.tool_ball_b2 = new B2FlxSprite(100, 10, 97, 98, _world);
 			this.tool_ball_b2.angle = 30;
@@ -210,7 +226,7 @@ package
 			//Inventory testing here.
 			Inv.visible = true;
 			this.addInv("Pencil");
-			this.addInv("Letter");
+//			this.addInv("Letter");
 			this.remInv("Pencil");
 		}
 		/**
@@ -466,6 +482,12 @@ package
 				else
 					this[line.split("@")[0].substring(2)]();
 			}
+		}
+		//
+		private function endGame():void
+		{
+//			FlxG.state = new CreditState();
+			FlxG.switchState(new CreditState());
 		}
 	}
 	
