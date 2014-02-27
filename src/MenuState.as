@@ -56,11 +56,11 @@ package
 		{
 			super();
 			//
-			var title:FlxText = new FlxText(40, 10, 300, "Adventure Game");
+			var title:FlxText = new FlxText(40, 10, FlxG.width, "Adventure Game");
 			title.size = 24;
 			add(title);
 			//
-			var startButton:FlxButton = new FlxButton(100, 100, "Start Game");
+			var startButton:FlxButton = new FlxButton(100, 100, "Start Game",startGame);
 //			startButton.label = new FlxText(20,3,100,"Start Game");
 //			startButton.loadText(new FlxText(20,3,100,"Start Game"));
 			add(startButton);
