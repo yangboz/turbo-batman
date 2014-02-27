@@ -14,6 +14,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
+	import org.flixel.FlxTilemap;
 	
 	
 	/**
@@ -39,6 +40,7 @@ package
 		private var tool_ball_b2:B2FlxSprite;
 		//Flx based.
 		private var charactor:FlxCharacter;
+		private var map_world:FlxTilemap;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -76,6 +78,12 @@ package
 		 */		
 		override public function create():void
 		{
+			//FlxTileMap at first.
+			this.map_world = new FlxTilemap();
+			var map_txt:String = new EmbedAssets.MAP_TXT(); 
+			this.map_world.loadMap(map_txt,EmbedAssets.MAP_WORLD,16,16);
+			this.add(this.map_world);
+			//Text
 			this.add(new FlxText(0,0,100,"Hello,World!"));//adds a 100px wide text field at position 0,0 (top left)
 			//Set up the Box2d world
 			setupBox2dWorld();
@@ -98,7 +106,6 @@ package
 			this.tool_ball_b2.createBody();
 			this.tool_ball_b2.loadGraphic(EmbedAssets.TOOLS_ROCK, false, false);
 			this.add(tool_ball_b2);
-			//
 		}
 		/**
 		 * Tell Box2D to update the world when Flixel runs its update.

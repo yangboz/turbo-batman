@@ -35,6 +35,13 @@ package assets
 		//Tools
 		[Embed(source="/images/Rock.png")]
 		public static var TOOLS_ROCK:Class;
+		//Map-FlxTileMap
+		// Loading the map.
+		[Embed(source = "/data/Map_world.txt", mimeType = "application/octet-stream")] 
+		public static var MAP_TXT:Class;
+		// Loading the map spritesheet.
+		[Embed(source = "/images/World.png")] 
+		public static var MAP_WORLD:Class;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
