@@ -30,6 +30,9 @@ package assets
 		[Embed(source="/images/Character.png")]
 		public static var CHARACTER:Class;
 		//
+		[Embed(source="/images/Character_NPC.png")]
+		public static var CHARACTER_NPC:Class;
+		//
 		[Embed(source="/images/Character Boy.png")]
 		public static var CHARACTER_BOY:Class;
 		//Tools

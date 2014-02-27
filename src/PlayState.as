@@ -12,6 +12,8 @@ package
 	import assets.EmbedAssets;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxRect;
+	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	import org.flixel.FlxTilemap;
@@ -41,6 +43,14 @@ package
 		//Flx based.
 		private var charactor:FlxCharacter;
 		private var map_world:FlxTilemap;
+		// Test character variable.
+		public static var characterList:Array = new Array();
+		private var dialogBG:FlxSprite;
+		private var charactor_NPC:FlxCharacter;
+		private var dialogIndex:uint = 0;
+		public var freeze:Boolean = false;
+		// Create a variable 'text' of class FlxText.
+		private var text:FlxText;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -84,7 +94,7 @@ package
 			this.map_world.loadMap(map_txt,EmbedAssets.MAP_WORLD,16,16);
 			this.add(this.map_world);
 			//Text
-			this.add(new FlxText(0,0,100,"Hello,World!"));//adds a 100px wide text field at position 0,0 (top left)
+//			this.add(new FlxText(0,0,100,"Hello,World!"));//adds a 100px wide text field at position 0,0 (top left)
 			//Set up the Box2d world
 			setupBox2dWorld();
 			//Add Box2d floor
@@ -98,8 +108,40 @@ package
 //			this.charactor_b2.createBody();
 //			this.charactor_b2.loadGraphic(EmbedAssets.CHARACTER_BOY, false, false);
 //			this.add(charactor_b2);
-			this.charactor = new FlxCharacter(5,5,EmbedAssets.CHARACTER);
+			//
+			// Dialog background.
+			dialogBG = new FlxSprite(0, 0);
+			dialogBG.makeGraphic(FlxG.width, 42, 0xff333333);
+			dialogBG.alpha = 0.75;
+			dialogBG.scrollFactor.x = 0;
+			dialogBG.scrollFactor.y = 0;
+			dialogBG.visible = false;
+			add(dialogBG);
+			
+			
+			// Instantiate 'text' with an x and y of 10, width of 100,
+			// and the classic text of 'Hello World'.
+			text = new FlxText(5, 5, FlxG.width - 10, "Hello World!");
+			text.scrollFactor.x = 0;
+			text.scrollFactor.y = 0;
+			text.visible = false;
+			
+			// Add the created variable to the gameloop,
+			// so the Flixel engine will update it.
+			this.add(text);
+			// Creating the character.
+			this.charactor = new FlxCharacter(5,5,EmbedAssets.CHARACTER,this.map_world);
 			this.add(this.charactor);
+			// NPC character
+			this.charactor_NPC = new FlxCharacter(10, 5, EmbedAssets.CHARACTER_NPC, this.map_world);
+			this.charactor_NPC.dialog = ["Richard: Hey how are you today!",
+				"You: I'm ok, thank you.",
+				"Richard: Do you want some candy?",
+				"You: No."];
+			this.add(this.charactor_NPC);
+			//
+			characterList.push(this.charactor);
+			characterList.push(this.charactor_NPC);
 			//Another FlxSprite-Tools
 			this.tool_ball_b2 = new B2FlxSprite(100, 10, 97, 98, _world);
 			this.tool_ball_b2.angle = 30;
@@ -117,28 +159,93 @@ package
 			//Update the charactor
 //			this.charactor.x += Main.gamepad.x * 50;
 //			this.charactor.y += Main.gamepad.y * 50;
-			// If down arrow key is pressed.
-			if (Main.gamepad.down.isDown)
-			{
-				this.charactor.move("DOWN");
-			}
-			// Else if up arrow key is pressed.
-			else if (Main.gamepad.up.isDown)
-			{
-				this.charactor.move("UP");
-			}
-			// Else if left arrow key is pressed.
-			else if (Main.gamepad.left.isDown)
-			{
-				this.charactor.move("LEFT");
-			}
-			// Else if right arrow key is pressed.
-			else if (Main.gamepad.right.isDown)
-			{
-				this.charactor.move("RIGHT");
-			}
 			//Camera follow
+			FlxG.camera.bounds = new FlxRect(0,0,9999,9999);
 			FlxG.camera.follow(this.charactor);
+			//
+			if (!freeze)
+			{
+				// If down arrow key is pressed.
+				if (Main.gamepad.down.isDown)
+				{
+					this.charactor.move("DOWN");
+				}
+					// Else if up arrow key is pressed.
+				else if (Main.gamepad.up.isDown)
+				{
+					this.charactor.move("UP");
+				}
+					// Else if left arrow key is pressed.
+				else if (Main.gamepad.left.isDown)
+				{
+					this.charactor.move("LEFT");
+				}
+					// Else if right arrow key is pressed.
+				else if (Main.gamepad.right.isDown)
+				{
+					this.charactor.move("RIGHT");
+				}
+					// Else if space is pressed
+				else if (Main.gamepad.fire2.isDown)//FlxG.keys.justPressed("SPACE")
+				{
+					// If player is not moving and there is an npc in front
+					if (!this.charactor.checkNPC(this.charactor.move_dir)) 
+					{
+						// Tempdir is inverse direction of player.
+						var tempDir:String = "";
+						switch(this.charactor.move_dir)
+						{
+							case "UP":
+								tempDir = "DOWN";
+								break;
+							case "DOWN":
+								tempDir = "UP";
+								break;
+							case "LEFT":
+								tempDir = "RIGHT";
+								break;
+							case "RIGHT":
+								tempDir = "LEFT";
+								break;
+						}
+						this.charactor_NPC = this.charactor.getCheckNPC(this.charactor.move_dir);
+						// Make npc look towards player
+						this.charactor_NPC.move_dir = tempDir;
+						// Change text to dialogtext.
+						dialogIndex = 0;
+						text.text = this.charactor_NPC.dialog[dialogIndex];
+						
+						// Freeze world
+						freeze = true;
+						
+						// Show text & dialog
+						text.visible = true;
+						dialogBG.visible = true;
+					}
+				}
+			}
+			else
+			{
+				if (Main.gamepad.fire2.isDown)//FlxG.keys.justPressed("SPACE")
+				{
+					// increase dialog index
+					dialogIndex++;
+					// If last line, unfreeze
+					if (dialogIndex >= this.charactor_NPC.dialog.length)
+					{
+						// Unfreeze
+						freeze = false;
+						
+						// hide text & dialog
+						text.visible = false;
+						dialogBG.visible = false;
+					}
+						// Else display next line
+					else
+						text.text = this.charactor_NPC.dialog[dialogIndex];
+				}
+			}
+			super.update();
 		}
 		//--------------------------------------------------------------------------
 		//
