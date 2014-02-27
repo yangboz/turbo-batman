@@ -6,6 +6,8 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
+	import assets.EmbedAssets;
+	
 	import org.flixel.FlxButton;
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
@@ -72,6 +74,8 @@ package
 			
 			// Show mouse.
 			FlxG.mouse.show();
+			// Play music
+			FlxG.playMusic(EmbedAssets.SFX_MUSIC);
 		} 
 		//--------------------------------------------------------------------------
 		//
@@ -94,6 +98,8 @@ package
 		{
 			FlxG.switchState(new PlayState());
 //			FlxG.state = new PlayState();
+			// Play sound
+			FlxG.play(EmbedAssets.SFX_BEEP);
 		}
 	}
 	

@@ -54,7 +54,12 @@ package assets
 		//
 		[Embed(source = "/images/Pencil.png")] 
 		public static var INVENTORY_PENCIL:Class;
+		//Music
+		[Embed(source = "data/Beep.mp3")] 
+		public static var SFX_BEEP:Class;
 		//
+		[Embed(source = "data/Music.mp3")] 
+		public static var SFX_MUSIC:Class;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
