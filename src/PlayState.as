@@ -57,6 +57,10 @@ package
 		private var foreground:FlxGroup = new FlxGroup();
 		private var background:FlxGroup = new FlxGroup();
 		private var Inv:FlxGroup = new FlxGroup();
+		//
+		private var inventory:Array = new Array();
+		private var inventory_items:Array = new Array();
+		private var inventory_BG:FlxSprite;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -127,6 +131,14 @@ package
 //			add(dialogBG);
 			//
 			GUI.add(dialogBG);
+			//Inventory 
+			inventory_BG = new FlxSprite(0, 42);
+			inventory_BG.makeGraphic(FlxG.width, 20, 0xFF773333);
+			inventory_BG.alpha = 0.75;
+			inventory_BG.scrollFactor.x = 0;
+			inventory_BG.scrollFactor.y = 0;
+			Inv.visible = false;
+			Inv.add(inventory_BG);
 			// Instantiate 'text' with an x and y of 10, width of 100,
 			// and the classic text of 'Hello World'.
 			text = new FlxText(5, 5, FlxG.width - 10, "Hello World!");
@@ -156,7 +168,7 @@ package
 			this.add(foreground);
 			this.add(GUI);
 			this.add(Inv);
-			//
+			//Character list
 			characterList.push(this.charactor);
 			characterList.push(this.charactor_NPC);
 			//Another FlxSprite-Tools
@@ -165,6 +177,13 @@ package
 			this.tool_ball_b2.createBody();
 			this.tool_ball_b2.loadGraphic(EmbedAssets.TOOLS_ROCK, false, false);
 			this.add(tool_ball_b2);
+			//Inventory item list
+			inventory_items.push(new FlxInventoryItem("Letter",EmbedAssets.INVENTORY_LETTER));
+			inventory_items.push(new FlxInventoryItem("Pencil",EmbedAssets.INVENTORY_PENCIL));
+			//Inventory testing here.
+			Inv.visible = true;
+			this.addInv("Letter");
+			this.addInv("Pencil");
 		}
 		/**
 		 * Tell Box2D to update the world when Flixel runs its update.
@@ -203,7 +222,7 @@ package
 					this.charactor.move("RIGHT");
 				}
 					// Else if space is pressed
-				else if (Main.gamepad.fire2.isReleased)//FlxG.keys.justPressed("SPACE")
+				else if (Main.gamepad.fire2.isDown)//FlxG.keys.justPressed("SPACE")
 				{
 					// If player is not moving and there is an npc in front
 					if (!this.charactor.checkNPC(this.charactor.move_dir)) 
@@ -244,7 +263,7 @@ package
 			}
 			else
 			{
-				if (Main.gamepad.fire2.isReleased)//FlxG.keys.justPressed("SPACE")
+				if (Main.gamepad.fire2.isDown)//FlxG.keys.justPressed("SPACE")
 				{
 					// increase dialog index
 					dialogIndex++;
@@ -264,6 +283,15 @@ package
 						text.text = this.charactor_NPC.dialog[dialogIndex];
 				}
 			}
+			if (Main.gamepad.fire1.isPressed)
+			{
+				updateInv();
+				if (Inv.visible)
+					Inv.visible = false;
+				else
+					Inv.visible = true;
+			}	
+			//
 			super.update();
 		}
 		//--------------------------------------------------------------------------
@@ -281,6 +309,64 @@ package
 		{
 			var gravity:b2Vec2 = new b2Vec2(0,9.8);
 			this._world = new b2World(gravity,true);
+		}
+		//
+		private function updateInv():void
+		{
+			for (var i:int = 0; i < inventory.length; i++)
+			{
+				inventory[i].x = 16 * i;
+				inventory[i].y = 44;
+			}
+		}
+		private function addInv(name:String):void
+		{
+			// temp Item variable
+			var newItem:FlxInventoryItem;
+			
+			// find item
+			for (var i:int = 0; i < inventory_items.length; i++ )
+			{
+				if (inventory_items[i].name == name)
+				{
+					newItem = new FlxInventoryItem(inventory_items[i].name, inventory_items[i].image);
+				}
+			}
+			
+			newItem.scrollFactor.x = 0;
+			newItem.scrollFactor.y = 0;
+			
+			// Add newItem to the list
+			inventory.push(newItem);
+			
+			// Add to Inv layer.
+			Inv.add(newItem);
+			
+			// Update display.
+			updateInv();
+		}
+		//
+		private function remInv(input:String):void
+		{
+			for (var i:int = 0; i < inventory.length; i++ )
+			{
+				// If the names match.
+				if (inventory[i].name == input.split(",")[0])
+				{
+					// Remove item.
+					Inv.remove(inventory[i], true);
+					inventory.splice(i, 1);
+					
+					// Remove all, or just 1 instance.
+					if (input.split(",")[1] == "true")
+						i--;
+					else
+					break;
+				}
+			}
+			
+			// Update display of inventory.
+			updateInv();
 		}
 	}
 	
