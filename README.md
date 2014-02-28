@@ -9,6 +9,8 @@ http://flixel.org/
 
 http://www.box2dflash.org/
 
+https://github.com/photonstorm/Flixel-Power-Tools
+
 Tutorials
 ============
 http://flashgamedojo.com/wiki/index.php?title=Category:Tutorials
@@ -20,3 +22,6 @@ TileMap Editor
 http://dambots.com/dame-editor/
 
 http://tilemap.co.uk/mappy.php
+
+
+
