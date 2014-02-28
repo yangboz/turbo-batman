@@ -17,6 +17,8 @@ http://flashgamedojo.com/wiki/index.php?title=Category:Tutorials
 
 http://www.kcnhgames.com/blog/?p=418
 
+http://forums.flixel.org/index.php?topic=211.0
+
 TileMap Editor
 ============
 http://dambots.com/dame-editor/
