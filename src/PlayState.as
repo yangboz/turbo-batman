@@ -160,46 +160,46 @@ package
 			foreground.add(this.charactor);
 			// NPC character
 			this.charactor_NPC = new FlxCharacter(10, 5, EmbedAssets.CHARACTER_NPC, this.map_world);
-			this.charactor_NPC.dialog = ["Richard: Hey how are you today!",
-				"You: I'm ok, thank you.",
-				"Richard: I need to write a letter but I don't have anything to write with. Do you have a pencil?",
+			this.charactor_NPC.dialog = ["小罗: 今天过得怎么样!",
+				"亮仔: 还好, 谢谢咯！",
+				"小罗: 我想诗情画意一下，可没有道具. 你有2B铅笔吗?",
 				"::changeCharLine@19",
 				"::checkItem@Pencil,6",
-				"You: Nope.",
+				"亮仔: 冒得.",
 				"::endDialog",
-				"You: Yes, here you go.",
+				"亮仔: 来, 给你一支.",
 				"::remInv@Pencil",
-				"*You give the Pencil to Richard*",
-				"Richard: Thanks a lot! Can you take this letter to Mimi, she lives in the house down the road?",
+				"*亮仔 递给一铅笔给 小罗*",
+				"小罗: 太感谢你了! 你能把这封情书给付婆吗, 她就住在马路的前方?",
 				"::addInv@Letter",
-				"*Richard gives you a Letter*",
-				"You: I'll see what I can do.",
+				"*小罗 给了 亮仔 一份情书*",
+				"亮仔: 我尽快送达.",
 				"::changeCharLine@15",
 				"::endDialog",
-				"Richard: What did Mimi say?",
-				"You: I haven't delivered the letter yet.",
+				"小罗: 付婆 说什么子了?",
+				"亮仔: 我还没有发快递过去呢.",
 				"::endDialog",
-				"Richard: Did you find a pencil yet?",
+				"小罗: 你找到2B铅笔了吗?",
 				"::checkItem@Pencil,6",
-				"You: Nope."];
+				"亮仔: 没有."];
 //			this.add(this.charactor_NPC);
 			foreground.add(this.charactor_NPC);
 			// Item that can be picked up in the world
 			this.character_pencil = new FlxCharacter(18,5,EmbedAssets.INVENTORY_PENCIL,this.map_world);
 			this.character_pencil.dialog = ["::addInv@Pencil",
 				"::tele@-1,-1",
-				"*You have found a pencil.*"];
+				"*亮仔 找到2B铅笔.*"];
 			foreground.add(this.character_pencil);
 			// Character_girl
 			this.character_girl = new FlxCharacter(13,22,EmbedAssets.CHARACTER_GIRL,this.map_world);
 			this.character_girl.dialog =  ["::checkItem@Letter,2", 
-				"Mimi: Welcome to my house!",
+				"付婆: 欢迎来到我家!",
 				"::endDialog",
-				"You: I have a letter for you from Richard.",
+				"亮仔: 我这有一封来自小罗的情书.",
 				"::remInv@Letter",
-				"*You give the letter to Mimi*",
-				"Mimi: Oh, how exciting, thanks a lot!",
-				"You: Well, it seems my adventure ends here, I've done a great job today...",
+				"*亮仔 传递情书给了 付婆*",
+				"付婆: 噢, 太兴奋了, 太感谢了!",
+				"亮仔: 好吧, 好像我的冒险就到这了, 今天真是干了一件惊天动地的任务...",
 				"::endGame",
 				""];
 			foreground.add(this.character_girl);
