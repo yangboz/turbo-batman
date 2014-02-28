@@ -14,3 +14,9 @@ Tutorials
 http://flashgamedojo.com/wiki/index.php?title=Category:Tutorials
 
 http://www.kcnhgames.com/blog/?p=418
+
+TileMap Editor
+============
+http://dambots.com/dame-editor/
+
+http://tilemap.co.uk/mappy.php
