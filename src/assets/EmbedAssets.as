@@ -48,6 +48,11 @@ package assets
 		// Loading the map spritesheet.
 		[Embed(source = "/images/World.png")] 
 		public static var MAP_WORLD:Class;
+//		[Embed(source = "/map/PlayGround.TXT", mimeType = "application/octet-stream")] 
+//		public static var MAP_TXT:Class;
+//		// Loading the map spritesheet.
+//		[Embed(source = "/map/PlayGround.PNG")] 
+//		public static var MAP_WORLD:Class;
 		//Inventory
 		[Embed(source = "/images/Letter.png")] 
 		public static var INVENTORY_LETTER:Class;
