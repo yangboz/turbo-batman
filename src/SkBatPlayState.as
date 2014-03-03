@@ -6,10 +6,12 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
+	import org.flixel.FlxEmitter;
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	import org.flixel.FlxU;
@@ -161,6 +163,9 @@ package
 			bullet.kill();
 			FlxG.score += 1;
 			_scoreText.text = FlxG.score.toString();
+			// In overlapAlienBulletHandler()
+			var emitter:FlxEmitter = createEmitter();
+			emitter.at(alien);
 		}
 		//
 		private function overlapAlienShipHandler(alien:SkBatAlien, ship:SkBatShip):void
@@ -173,6 +178,30 @@ package
 				"GAME OVER\nPRESS ENTER TO PLAY AGAIN");
 			_gameOverText.setFormat(null, 16, 0xFF597137, "center");
 			add(_gameOverText);
+			// In overlapAlienShipHandler()
+			var emitter:FlxEmitter = createEmitter();
+			emitter.at(ship);
+		}
+		//Explosions
+		private function createEmitter():FlxEmitter
+		{
+			var emitter:FlxEmitter = new FlxEmitter();
+//			emitter.delay = 1;
+			emitter.gravity = 0;
+			emitter.minRotation = 0;
+			emitter.setXSpeed(-500,500);
+			emitter.setYSpeed(-500,500);
+			var particles:int = 10;
+			for(var i:int=0;i<particles;i++)
+			{
+				var particle:FlxSprite = new FlxSprite();
+				particle.makeGraphic(2, 2, 0xFF597137);
+				particle.exists = false;
+				emitter.add(particle);
+			}
+			emitter.start();
+			this.add(emitter);
+			return emitter;
 		}
 	}
 	
