@@ -6,6 +6,9 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
+	import assets.EmbedAssets;
+	import assets.SkBatEmbedAssets;
+	
 	import org.flixel.FlxEmitter;
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
@@ -76,6 +79,8 @@ package
 		//--------------------------------------------------------------------------
 		override public function create():void
 		{
+			// In overlapAlienShip()
+			FlxG.play(SkBatEmbedAssets.SFX_BACKGROUND,0.5,true);
 			//
 			this._ship = new SkBatShip();
 			this.add(this._ship);
@@ -154,6 +159,8 @@ package
 			var x:Number = FlxG.width;
 			var y:Number = FlxG.height;
 			this._bullets.add(new SkBatBullet(point.x,point.y));
+			// In spawnBullet()
+			FlxG.play(SkBatEmbedAssets.SFX_BULLET);
 		}
 		//Collision detection callback functions.
 		//
@@ -166,6 +173,8 @@ package
 			// In overlapAlienBulletHandler()
 			var emitter:FlxEmitter = createEmitter();
 			emitter.at(alien);
+			// In overlapAlienBullet()
+			FlxG.play(SkBatEmbedAssets.SFX_EXPLOSION_ALIEN);
 		}
 		//
 		private function overlapAlienShipHandler(alien:SkBatAlien, ship:SkBatShip):void
@@ -181,6 +190,8 @@ package
 			// In overlapAlienShipHandler()
 			var emitter:FlxEmitter = createEmitter();
 			emitter.at(ship);
+			// In overlapAlienShip()
+			FlxG.play(SkBatEmbedAssets.SFX_EXPLOSION_SHIP);
 		}
 		//Explosions
 		private function createEmitter():FlxEmitter

@@ -29,6 +29,18 @@ package assets
 		//
 		[Embed(source="/images_SkBat/Ship.png")]
 		public static var CHARACTER_SHIP:Class;
+		//Music
+		[Embed(source = "data_SkBat/Bullet.mp3")] 
+		public static var SFX_BULLET:Class;
+		//
+		[Embed(source = "data_SkBat/ExplosionAlien.mp3")] 
+		public static var SFX_EXPLOSION_ALIEN:Class;
+		//
+		[Embed(source = "data_SkBat/ExplosionShip.mp3")] 
+		public static var SFX_EXPLOSION_SHIP:Class;
+		//
+		[Embed(source = "data_SkBat/POL-purple-hills-short.mp3")] 
+		public static var SFX_BACKGROUND:Class;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
