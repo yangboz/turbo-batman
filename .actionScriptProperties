@@ -33,6 +33,7 @@
   </compiler>
   <applications>
     <application path="Main.as"/>
+    <application path="SkyBattle.as"/>
   </applications>
   <modules/>
   <workers/>

@@ -6,35 +6,31 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
-	import com.iainlobb.gamepad.Gamepad;
-	import com.iainlobb.gamepad.GamepadView;
+	import flash.geom.Point;
 	
-	import flash.events.Event;
+	import assets.SkBatEmbedAssets;
 	
-	import org.flixel.FlxGame;
-
- //Allows you to refer to flixel objects in your code
-	[SWF(width="640", height="480", backgroundColor="#000000")] //Set the size and color of the Flash file
-	//Preloader setting here.
-//	[Frame(factoryClass="Preloader")]
+	import org.flixel.FlxGroup;
+	import org.flixel.FlxPoint;
+	import org.flixel.FlxSprite;
+	
+	
 	/**
-	 * Main.as class. 
+	 * SkBatShip.as class. 
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 11.2+
 	 * @airVersion 3.2+
-	 * Created Feb 25, 2014 7:53:29 PM
+	 * Created Mar 3, 2014 10:07:02 AM
 	 * @history 12/30/13,
 	 */ 
-	public class Main extends FlxGame
+	public class SkBatShip extends FlxSprite
 	{ 
 		//--------------------------------------------------------------------------
 		//
 		// Variables
 		//
 		//--------------------------------------------------------------------------
-		public static var gamepad:Gamepad;
-		private static var gamepadView:GamepadView;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -58,18 +54,47 @@ package
 		// Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function Main()
+		public function SkBatShip(X:Number=0, Y:Number=0, SimpleGraphic:Class=null)
 		{
-			super(640,380,PlayState,1); //Create a new FlxGame object at 320x240 with 2x pixels, then load PlayState
-//			super(640,380,SkBatPlayState,1); //Create a new SkyBattle object at 320x240 with 2x pixels, then load PlayState
-			//
-			this.addEventListener(Event.ADDED_TO_STAGE,addToStageHandler);
+			super(X, Y, SkBatEmbedAssets.CHARACTER_SHIP);
 		} 
 		//--------------------------------------------------------------------------
 		//
 		// Public methods
 		//
 		//--------------------------------------------------------------------------
+		//
+		override public function update():void
+		{
+			this.velocity.x = 0;
+			this.velocity.y = 0;
+			//
+			if(Main.gamepad.left.isDown)
+			{
+				velocity.x = -250;
+			}
+			else if(Main.gamepad.right.isDown)
+			{
+				velocity.x = 250;
+			}
+			
+			if(Main.gamepad.up.isDown)
+			{
+				velocity.y = -250;
+			}
+			else if(Main.gamepad.down.isDown)
+			{
+				velocity.y = 250;
+			}
+			//
+			super.update();
+		}
+		//
+		public function getBulletSpawnPosition():FlxPoint
+		{
+			var p:FlxPoint = new FlxPoint(x + 36,y + 12);
+			return p;
+		}
 		//--------------------------------------------------------------------------
 		//
 		// Protected methods
@@ -81,18 +106,6 @@ package
 		// Private methods
 		//
 		//--------------------------------------------------------------------------
-		private function addToStageHandler(event:Event):void
-		{
-			//GamePad
-			Main.gamepad = new Gamepad(this.stage,true,0.5,true);
-			Main.gamepad.useWASD(true);
-			//GamePadView
-			Main.gamepadView = new GamepadView();
-			Main.gamepadView.init(gamepad,0xffffff);
-			this.addChild(Main.gamepadView);
-			Main.gamepadView.x = this.stage.stageWidth-Main.gamepadView.width/2;
-			Main.gamepadView.y = this.stage.stageHeight-Main.gamepadView.height/2;
-		}
 	}
 	
 }

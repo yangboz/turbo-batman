@@ -6,35 +6,34 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
-	import com.iainlobb.gamepad.Gamepad;
-	import com.iainlobb.gamepad.GamepadView;
+	import org.flixel.FlxG;
+	import org.flixel.FlxGroup;
+	import org.flixel.FlxPoint;
+	import org.flixel.FlxState;
 	
-	import flash.events.Event;
 	
-	import org.flixel.FlxGame;
-
- //Allows you to refer to flixel objects in your code
-	[SWF(width="640", height="480", backgroundColor="#000000")] //Set the size and color of the Flash file
-	//Preloader setting here.
-//	[Frame(factoryClass="Preloader")]
 	/**
-	 * Main.as class. 
+	 * SkBatPlayState.as class. 
 	 * @author yangboz
 	 * @langVersion 3.0
 	 * @playerVersion 11.2+
 	 * @airVersion 3.2+
-	 * Created Feb 25, 2014 7:53:29 PM
+	 * Created Mar 3, 2014 10:05:16 AM
 	 * @history 12/30/13,
 	 */ 
-	public class Main extends FlxGame
+	public class SkBatPlayState extends FlxState
 	{ 
 		//--------------------------------------------------------------------------
 		//
 		// Variables
 		//
 		//--------------------------------------------------------------------------
-		public static var gamepad:Gamepad;
-		private static var gamepadView:GamepadView;
+		//Kind of character.
+		private var _ship:SkBatShip;
+		private var _aliens:FlxGroup;
+		private var _bullets:FlxGroup;
+		private var _spawnTimer:Number;
+		private var _spawnInterval:Number = 2.5;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -58,18 +57,49 @@ package
 		// Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function Main()
+		public function SkBatPlayState()
 		{
-			super(640,380,PlayState,1); //Create a new FlxGame object at 320x240 with 2x pixels, then load PlayState
-//			super(640,380,SkBatPlayState,1); //Create a new SkyBattle object at 320x240 with 2x pixels, then load PlayState
-			//
-			this.addEventListener(Event.ADDED_TO_STAGE,addToStageHandler);
+			super();
 		} 
 		//--------------------------------------------------------------------------
 		//
 		// Public methods
 		//
 		//--------------------------------------------------------------------------
+		override public function create():void
+		{
+			//
+			this._ship = new SkBatShip();
+			this.add(this._ship);
+			//
+			this._aliens = new FlxGroup();
+			this.add(this._aliens);
+			//
+			this._bullets = new FlxGroup();
+			this.add(this._bullets);
+			//
+			this.resetSpawnTimer();
+			//
+			super.create();
+		}
+		//
+		override public function update():void
+		{
+			//
+			if(Main.gamepad.fire2.isDown )
+			{
+				this.spawnBullets(this._ship.getBulletSpawnPosition())
+			}
+			//
+			this._spawnTimer -= FlxG.elapsed;
+			if(this._spawnTimer < 0)
+			{
+				this.spawnAlien();
+				this.resetSpawnTimer();
+			}
+			//
+			super.update();
+		}
 		//--------------------------------------------------------------------------
 		//
 		// Protected methods
@@ -81,17 +111,28 @@ package
 		// Private methods
 		//
 		//--------------------------------------------------------------------------
-		private function addToStageHandler(event:Event):void
+		private function resetSpawnTimer():void
 		{
-			//GamePad
-			Main.gamepad = new Gamepad(this.stage,true,0.5,true);
-			Main.gamepad.useWASD(true);
-			//GamePadView
-			Main.gamepadView = new GamepadView();
-			Main.gamepadView.init(gamepad,0xffffff);
-			this.addChild(Main.gamepadView);
-			Main.gamepadView.x = this.stage.stageWidth-Main.gamepadView.width/2;
-			Main.gamepadView.y = this.stage.stageHeight-Main.gamepadView.height/2;
+			this._spawnTimer = this._spawnInterval;
+			this._spawnInterval *= 0.95;
+			if(this._spawnInterval<0.1)
+			{
+				this._spawnInterval = 0.1;
+			}
+		}
+		//
+		private function spawnAlien():void
+		{
+			var x:Number = FlxG.width;
+			var y:Number = FlxG.height;
+			this._aliens.add(new SkBatAlien(x,y));
+		}
+		//
+		private function spawnBullets(point:FlxPoint):void
+		{
+			var x:Number = FlxG.width;
+			var y:Number = FlxG.height;
+			this._bullets.add(new SkBatBullet(point.x,point.y));
 		}
 	}
 	
