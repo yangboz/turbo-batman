@@ -8,8 +8,11 @@ package
 	//--------------------------------------------------------------------------
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxObject;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxState;
+	import org.flixel.FlxText;
+	import org.flixel.FlxU;
 	
 	
 	/**
@@ -34,6 +37,9 @@ package
 		private var _bullets:FlxGroup;
 		private var _spawnTimer:Number;
 		private var _spawnInterval:Number = 2.5;
+		//texts
+		private var _scoreText:FlxText;
+		private var _gameOverText:FlxText;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -80,13 +86,21 @@ package
 			//
 			this.resetSpawnTimer();
 			//
+			FlxG.score = 0;
+			_scoreText = new FlxText(10, 8, 200, "0");
+			_scoreText.setFormat(null, 32, 0xFF597137, "left");
+			add(_scoreText);
+			//
 			super.create();
 		}
 		//
 		override public function update():void
 		{
+			//Collision detection
+			FlxG.overlap(this._aliens,this._bullets,overlapAlienBulletHandler);
+			FlxG.overlap(this._aliens,this._ship,overlapAlienShipHandler);
 			//
-			if(SkyBattle.gamepad.fire2.isDown )
+			if(SkyBattle.gamepad.fire2.isDown && this._ship.alive )
 			{
 				this.spawnBullets(this._ship.getBulletSpawnPosition())
 			}
@@ -96,6 +110,11 @@ package
 			{
 				this.spawnAlien();
 				this.resetSpawnTimer();
+			}
+			//Restart
+			if(FlxG.keys.ENTER && !this._ship.alive )
+			{
+				FlxG.switchState( new SkBatPlayState() );
 			}
 			//
 			super.update();
@@ -133,6 +152,27 @@ package
 			var x:Number = FlxG.width;
 			var y:Number = FlxG.height;
 			this._bullets.add(new SkBatBullet(point.x,point.y));
+		}
+		//Collision detection callback functions.
+		//
+		private function overlapAlienBulletHandler(alien:SkBatAlien, bullet:SkBatBullet):void
+		{
+			alien.kill();
+			bullet.kill();
+			FlxG.score += 1;
+			_scoreText.text = FlxG.score.toString();
+		}
+		//
+		private function overlapAlienShipHandler(alien:SkBatAlien, ship:SkBatShip):void
+		{
+			ship.kill();
+			alien.kill();
+//			FlxG.quake.start(0.02);
+			
+			_gameOverText = new FlxText(0, FlxG.height / 2, FlxG.width,
+				"GAME OVER\nPRESS ENTER TO PLAY AGAIN");
+			_gameOverText.setFormat(null, 16, 0xFF597137, "center");
+			add(_gameOverText);
 		}
 	}
 	
