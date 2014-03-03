@@ -86,7 +86,7 @@ package
 		override public function update():void
 		{
 			//
-			if(Main.gamepad.fire2.isDown )
+			if(SkyBattle.gamepad.fire2.isDown )
 			{
 				this.spawnBullets(this._ship.getBulletSpawnPosition())
 			}
@@ -124,7 +124,7 @@ package
 		private function spawnAlien():void
 		{
 			var x:Number = FlxG.width;
-			var y:Number = FlxG.height;
+			var y:Number = Math.random() * (FlxG.height - 100) + 50;
 			this._aliens.add(new SkBatAlien(x,y));
 		}
 		//

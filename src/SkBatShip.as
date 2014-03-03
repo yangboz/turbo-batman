@@ -69,20 +69,20 @@ package
 			this.velocity.x = 0;
 			this.velocity.y = 0;
 			//
-			if(Main.gamepad.left.isDown)
+			if(SkyBattle.gamepad.left.isDown)
 			{
 				velocity.x = -250;
 			}
-			else if(Main.gamepad.right.isDown)
+			else if(SkyBattle.gamepad.right.isDown)
 			{
 				velocity.x = 250;
 			}
 			
-			if(Main.gamepad.up.isDown)
+			if(SkyBattle.gamepad.up.isDown)
 			{
 				velocity.y = -250;
 			}
-			else if(Main.gamepad.down.isDown)
+			else if(SkyBattle.gamepad.down.isDown)
 			{
 				velocity.y = 250;
 			}

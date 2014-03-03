@@ -53,7 +53,7 @@ package
 		{
 			super(X, Y, SimpleGraphic);
 			//
-			this.makeGraphic(16,4,0xFF5971);
+			this.makeGraphic(16,4,0xFF597137);
 			//
 			this.velocity.x = 1000;
 		} 

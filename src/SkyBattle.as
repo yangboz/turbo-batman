@@ -6,10 +6,15 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
+	import com.iainlobb.gamepad.Gamepad;
+	import com.iainlobb.gamepad.GamepadView;
+	
+	import flash.events.Event;
+	
 	import org.flixel.FlxGame;
 	
 	[SWF(width="640", height="480", backgroundColor="#ABCC7D")]
-	[Frame(factoryClass="Preloader")]
+//	[Frame(factoryClass="Preloader")]
 	/**
 	 * SkyBattle.as class.
 	 * @see http://www.creativeapplications.net/flash/flixel-2-tutorial-flash-tutorials-games/
@@ -27,7 +32,8 @@ package
 		// Variables
 		//
 		//--------------------------------------------------------------------------
-		
+		public static var gamepad:Gamepad;
+		private static var gamepadView:GamepadView;
 		//----------------------------------
 		// CONSTANTS
 		//----------------------------------
@@ -51,10 +57,13 @@ package
 		// Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function SkyBattle(GameSizeX:uint, GameSizeY:uint, InitialState:Class, Zoom:Number=1, GameFramerate:uint=60, FlashFramerate:uint=30, UseSystemCursor:Boolean=false)
+		public function SkyBattle()
 		{
 //			super(GameSizeX, GameSizeY, InitialState, Zoom, GameFramerate, FlashFramerate, UseSystemCursor);
-			super(GameSizeX, GameSizeY, SkBatPlayState, Zoom, GameFramerate, FlashFramerate, UseSystemCursor);
+//			super(0, 0, SkBatPlayState, Zoom, GameFramerate, FlashFramerate, UseSystemCursor);
+			super(640,380,SkBatPlayState,1);
+			//
+			this.addEventListener(Event.ADDED_TO_STAGE,addToStageHandler);
 		} 
 		//--------------------------------------------------------------------------
 		//
@@ -73,6 +82,18 @@ package
 		// Private methods
 		//
 		//--------------------------------------------------------------------------
+		private function addToStageHandler(event:Event):void
+		{
+			//GamePad
+			SkyBattle.gamepad = new Gamepad(this.stage,true,0.5,true);
+			SkyBattle.gamepad.useWASD(true);
+			//GamePadView
+			SkyBattle.gamepadView = new GamepadView();
+			SkyBattle.gamepadView.init(gamepad,0xffffff);
+			this.addChild(SkyBattle.gamepadView);
+			SkyBattle.gamepadView.x = this.stage.stageWidth-SkyBattle.gamepadView.width/2;
+			SkyBattle.gamepadView.y = this.stage.stageHeight-SkyBattle.gamepadView.height/2;
+		}
 	}
 	
 }
