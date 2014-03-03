@@ -58,19 +58,20 @@ package
 		{
 			super();
 			//
-			var title:FlxText = new FlxText(40, 10, FlxG.width, "Adventure Game");
+			var title:FlxText = new FlxText((FlxG.width-100)/2, 100, FlxG.width, "丢傻包",false);
 			title.size = 24;
 			add(title);
 			//
-			var startButton:FlxButton = new FlxButton(100, 100, "Start Game",startGame);
+			var startButton:FlxButton = new FlxButton((FlxG.width-100)/2, 150, "开始冒险",startGame);
 //			startButton.label = new FlxText(20,3,100,"Start Game");
 //			startButton.loadText(new FlxText(20,3,100,"Start Game"));
+			startButton.height = 40;
 			add(startButton);
 			
-			add(new FlxText(100, 130, 300, 
-				"Moving: Arrow keys \n" +
-				"Actions: Spacebar \n" + 
-				"Inventory: X"));
+			add(new FlxText((FlxG.width-100)/2, 200, 300, 
+				"移动: 方向键 \n" +
+				"动作: 空格键 \n" + 
+				"道具: X键",false));
 			
 			// Show mouse.
 			FlxG.mouse.show();
@@ -100,6 +101,8 @@ package
 //			FlxG.state = new PlayState();
 			// Play sound
 			FlxG.play(EmbedAssets.SFX_BEEP);
+			//
+			FlxG.mouse.hide();
 		}
 	}
 	

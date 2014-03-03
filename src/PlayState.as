@@ -117,7 +117,7 @@ package
 			this.floor_b2 = new B2FlxTileBlock(0,300,202,131,this._world);
 			this.floor_b2.createBody();
 			this.floor_b2.loadGraphic(EmbedAssets.FLOOR_BLOCK_GRASS);
-			this.add(floor_b2);
+//			this.add(floor_b2);
 			//Add FlxSprite-Character
 //			this.charactor_b2 = new B2FlxSprite(20,0,67, 87, _world);
 //			this.charactor_b2.angle = 30;
@@ -242,7 +242,7 @@ package
 //			this.charactor.y += Main.gamepad.y * 50;
 			//Camera follow
 			FlxG.camera.bounds = new FlxRect(0,0,9999,9999);
-			FlxG.camera.follow(this.charactor);
+//			FlxG.camera.follow(this.charactor);
 			//
 			if (!freeze)
 			{

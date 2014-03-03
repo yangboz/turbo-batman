@@ -55,14 +55,14 @@ package
 		{
 			super();
 			//
-			text = new FlxText(24, 24, FlxG.width,
+			text = new FlxText((FlxG.width-24)/2, 24, FlxG.width,
 				"丢傻包 \n \n" +
 				"程序: 科比 \n" +
 				"图片素材: kcnh (www.kcnhgames.com) \n" +
 				"剧情脚本: 杨总 \n" +
 				"友情出演: 单车队 灰太郎球队 \n" +
 				"赞助商: 颜氏土鸡蛋 \n" +
-				"\n \n 请按 SPACE 继续.",false);
+				"\n \n 请按 ENTER 重玩.",false);
 			
 			add(text);
 		} 
@@ -74,7 +74,7 @@ package
 		override public function update():void
 		{
 			
-			if (Main.gamepad.fire2.isPressed)//FlxG.keys.justPressed("SPACE"))
+			if (FlxG.keys.ENTER)//FlxG.keys.justPressed("SPACE"))
 			{
 				FlxG.switchState(new MenuState());
 //				FlxG.state = new MenuState();
