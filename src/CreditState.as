@@ -56,11 +56,13 @@ package
 			super();
 			//
 			text = new FlxText(24, 24, FlxG.width,
-				"Adventure Game \n \n" +
-				"Programming by: me \n" +
-				"Graphics by: kcnh (www.kcnhgames.com) \n" +
-				"Based on a tutorial by: kcnh (www.kcnhgames.com) \n" +
-				"\n \n Press SPACE to continue.");
+				"丢傻包 \n \n" +
+				"程序: 科比 \n" +
+				"图片素材: kcnh (www.kcnhgames.com) \n" +
+				"剧情脚本: 杨总 \n" +
+				"友情出演: 单车队 灰太郎球队 \n" +
+				"赞助商: 颜氏土鸡蛋 \n" +
+				"\n \n 请按 SPACE 继续.",false);
 			
 			add(text);
 		} 

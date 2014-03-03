@@ -145,7 +145,7 @@ package
 			Inv.add(inventory_BG);
 			// Instantiate 'text' with an x and y of 10, width of 100,
 			// and the classic text of 'Hello World'.
-			text = new FlxText(5, 5, FlxG.width - 10, "Hello World!");
+			text = new FlxText(5, 5, FlxG.width - 10, "Hello World!",false);
 			text.scrollFactor.x = 0;
 			text.scrollFactor.y = 0;
 //			text.visible = false;

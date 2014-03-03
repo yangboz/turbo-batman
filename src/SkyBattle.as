@@ -86,7 +86,7 @@ package
 		{
 			//GamePad
 			SkyBattle.gamepad = new Gamepad(this.stage,true,0.5,true);
-			SkyBattle.gamepad.useWASD(true);
+//			SkyBattle.gamepad.useWASD(true);
 			//GamePadView
 			SkyBattle.gamepadView = new GamepadView();
 			SkyBattle.gamepadView.init(gamepad,0xffffff);

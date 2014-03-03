@@ -85,7 +85,7 @@ package
 		{
 			//GamePad
 			Main.gamepad = new Gamepad(this.stage,true,0.5,true);
-			Main.gamepad.useWASD(true);
+//			Main.gamepad.useWASD(true);
 			//GamePadView
 			Main.gamepadView = new GamepadView();
 			Main.gamepadView.init(gamepad,0xffffff);
