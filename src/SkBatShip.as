@@ -6,11 +6,8 @@ package
 	// Imports
 	//
 	//--------------------------------------------------------------------------
-	import flash.geom.Point;
-	
 	import assets.SkBatEmbedAssets;
 	
-	import org.flixel.FlxGroup;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	

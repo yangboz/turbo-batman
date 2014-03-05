@@ -24,29 +24,29 @@ package assets
 		//
 		//--------------------------------------------------------------------------
 		//Floor
-		[Embed(source="/images/Grass_Block.png")]
+		[Embed(source="images/Grass_Block.png")]
 		public static var FLOOR_BLOCK_GRASS:Class;
 		//Chacter
-		[Embed(source="/images/Character.png")]
+		[Embed(source="images/Character.png")]
 		public static var CHARACTER:Class;
 		//
-		[Embed(source="/images/Character_NPC.png")]
+		[Embed(source="images/Character_NPC.png")]
 		public static var CHARACTER_NPC:Class;
 		//
-		[Embed(source="/images/Character_Boy.png")]
+		[Embed(source="images/Character_Boy.png")]
 		public static var CHARACTER_BOY:Class;
 		//
-		[Embed(source="/images/Character_Mimi.png")]
+		[Embed(source="images/Character_Mimi.png")]
 		public static var CHARACTER_GIRL:Class;
 		//Tools
-		[Embed(source="/images/Rock.png")]
+		[Embed(source="images/Rock.png")]
 		public static var TOOLS_ROCK:Class;
 		//Map-FlxTileMap
 		// Loading the map.
-		[Embed(source = "/data/Map_world.txt", mimeType = "application/octet-stream")] 
+		[Embed(source = "data/Map_world.txt", mimeType = "application/octet-stream")] 
 		public static var MAP_TXT:Class;
 		// Loading the map spritesheet.
-		[Embed(source = "/images/World.png")] 
+		[Embed(source = "images/World.png")] 
 		public static var MAP_WORLD:Class;
 //		[Embed(source = "/map/PlayGround.TXT", mimeType = "application/octet-stream")] 
 //		public static var MAP_TXT:Class;
@@ -54,10 +54,10 @@ package assets
 //		[Embed(source = "/map/PlayGround.PNG")] 
 //		public static var MAP_WORLD:Class;
 		//Inventory
-		[Embed(source = "/images/Letter.png")] 
+		[Embed(source = "images/Letter.png")] 
 		public static var INVENTORY_LETTER:Class;
 		//
-		[Embed(source = "/images/Pencil.png")] 
+		[Embed(source = "images/Pencil.png")] 
 		public static var INVENTORY_PENCIL:Class;
 		//Music
 		[Embed(source = "data/Beep.mp3")] 
