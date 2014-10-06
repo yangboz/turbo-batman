@@ -34,6 +34,10 @@ http://dambots.com/dame-editor/
 
 http://tilemap.co.uk/mappy.php
 
+Cocos-JS
+============
+http://cocos2d-x.org/docs/tutorial/framework/html5/parkour-game-with-javascript-v3.0/chapter6/en
+
 TODO
 ============
 If you want something similar to Flixel, Axel might be right for you. I couldn't get it to run under Flash Builder 4.7 beta and AIR 3.4, though. http://axgl.org/
